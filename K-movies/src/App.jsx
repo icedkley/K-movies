@@ -36,30 +36,75 @@ function App() {
     setPage(i);
   }
 
-  function handleMovieListOnClick(list) {
-    setPage(1);
-    setMovieList(list);
+  // function handleMovieListOnClick(list) {
+  //   setPage(1);
+  //   setMovieList(list);
 
-    if (list == "popular") {
-      setDisplayList("Popular");
-    } else if (list == "now_playing") {
-      setDisplayList("Playing Now");
-    } else if (list == "upcoming") {
-      setDisplayList("Upcoming");
-    } else if (list == "top_rated") {
-      setDisplayList("Top Rated");
+  //   if (list == "popular") {
+  //     setDisplayList("Popular");
+  //   } else if (list == "now_playing") {
+  //     setDisplayList("Playing Now");
+  //   } else if (list == "upcoming") {
+  //     setDisplayList("Upcoming");
+  //   } else if (list == "top_rated") {
+  //     setDisplayList("Top Rated");
+  //   }
+  // }
+
+  // function handleInputChange(e) {
+  //   const newSearchTerm = e.target.value;
+  //   setSearchTerm(newSearchTerm);
+
+  //   if (newSearchTerm !== "") {
+  //     setDisplayList(`Search Results for: ${newSearchTerm}`);
+  //   } else if (newSearchTerm == "") {
+  //     setDisplayList(movieList);
+  //   }
+
+  //   console.log(newSearchTerm);
+  // }
+
+  function handleInput(listOrEvent) {
+    let current = "";
+
+    if (typeof listOrEvent === "string") {
+      setPage(1);
+      setMovieList(listOrEvent);
+
+      if (listOrEvent == "popular") {
+        current = "Popular";
+        setDisplayList(current);
+        console.log(current);
+      } else if (listOrEvent == "now_playing") {
+        current = "Playing Now";
+        setDisplayList(current);
+      } else if (listOrEvent == "upcoming") {
+        current = "Upcoming";
+        setDisplayList(current);
+      } else if (listOrEvent == "top_rated") {
+        current = "Top Rated";
+        setDisplayList(current);
+      }
+    } else {
+      const newSearchTerm = listOrEvent.target.value;
+      setSearchTerm(newSearchTerm);
+
+      if (newSearchTerm !== "") {
+        setDisplayList(`Search Results for: ${newSearchTerm}`);
+      } else if (newSearchTerm == "") {
+        setDisplayList(current);
+      }
+
+      console.log(newSearchTerm);
+      console.log(current);
     }
   }
 
   return (
     <div className="flex flex-col items-center ">
-      <input
-        type="text"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        placeholder="Search movies..."
-      />
-      <Home onButtonClick={handleMovieListOnClick}></Home>
+      <Home onButtonClick={handleInput} onInputChange={handleInput}>
+        {" "}
+      </Home>
 
       <h1 className="text-white pl-10 text-4xl font-bold">{displayList}</h1>
 

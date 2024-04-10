@@ -1,4 +1,4 @@
-export function Home({ onButtonClick }) {
+export function Home({ onButtonClick, onInputChange }) {
   return (
     <div className=" flex flex-col items-center justify-center w-full ">
       <h1 className="text-slate-50 sm:text-2xl md:text-4xl lg:text-6xl p-5 font-semibold">
@@ -10,6 +10,7 @@ export function Home({ onButtonClick }) {
           type="text"
           placeholder="Search..."
           className="px-3 py-2 w-1/2"
+          onChange={onInputChange}
         />
         <button className="bg-sky-500 p-2 hover:bg-sky-700">Search</button>
       </div>
