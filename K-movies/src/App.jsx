@@ -7,10 +7,14 @@ import { Footer } from "./footer";
 function App() {
   const [movies, setMovies] = useState([]);
   const [movieList, setMovieList] = useState("popular");
+  const [displayList, setDisplayList] = useState("Popular");
   const [page, setPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
   const pagesArr = Array.from({ length: 10 });
 
-  const url = `https://api.themoviedb.org/3/movie/${movieList}?language=en-US&page=${page}`;
+  const url = searchTerm
+    ? `https://api.themoviedb.org/3/search/movie?query=${searchTerm}&language=en-US&page=${page}`
+    : `https://api.themoviedb.org/3/movie/${movieList}?language=en-US&page=${page}`;
 
   const options = {
     method: "GET",
@@ -26,24 +30,38 @@ function App() {
       .then((res) => res.json())
       .then((json) => setMovies(json.results))
       .catch((err) => console.error("error:" + err));
-  }, [page, movieList]);
+  }, [page, movieList, searchTerm]);
 
   function handlePageClick(i) {
     setPage(i);
-    console.log(i);
   }
 
   function handleMovieListOnClick(list) {
     setPage(1);
     setMovieList(list);
-    console.log(list);
+
+    if (list == "popular") {
+      setDisplayList("Popular");
+    } else if (list == "now_playing") {
+      setDisplayList("Playing Now");
+    } else if (list == "upcoming") {
+      setDisplayList("Upcoming");
+    } else if (list == "top_rated") {
+      setDisplayList("Top Rated");
+    }
   }
 
   return (
     <div className="flex flex-col items-center ">
+      <input
+        type="text"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        placeholder="Search movies..."
+      />
       <Home onButtonClick={handleMovieListOnClick}></Home>
 
-      <h1 className="text-white pl-10 text-4xl font-bold">Popular</h1>
+      <h1 className="text-white pl-10 text-4xl font-bold">{displayList}</h1>
 
       <div className="grid  lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-4 m-10  ">
         {movies.map((movie) => (
