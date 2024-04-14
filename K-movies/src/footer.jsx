@@ -1,13 +1,13 @@
 export function Footer() {
   return (
     <div className="text-white font-serif flex flex-col items-center p-10 mt-12 bg-black w-full">
-      <p>
+      {/* <p>
         Developed by{" "}
         <a href="https://github.com/kleyio" target="_blank">
           Kley.io
         </a>
       </p>
-      <p>Bacolod City, Philippines</p>
+      <p>Bacolod City, Philippines</p> */}
       <p>Privacy Policy | Terms & Conditions</p>
       <p>
         Contact:{" "}

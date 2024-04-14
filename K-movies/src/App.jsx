@@ -1,15 +1,16 @@
-import { Home } from "./Home";
 import { useEffect, useState } from "react";
 import { Movie } from "./Movies";
 import { Pages } from "./Pages";
 import { Footer } from "./footer";
+import { Home } from "./Home";
 
 function App() {
   const [movies, setMovies] = useState([]);
-  const [movieList, setMovieList] = useState("popular");
-  const [displayList, setDisplayList] = useState("Popular");
+  const [movieList, setMovieList] = useState("popular"); //for URL varialbe change
+  const [displayList, setDisplayList] = useState("Popular"); // for display title of movie list
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
+  const [displaySearch, setDisplaySearch] = useState("");
   const pagesArr = Array.from({ length: 10 });
 
   const url = searchTerm
@@ -36,77 +37,44 @@ function App() {
     setPage(i);
   }
 
-  // function handleMovieListOnClick(list) {
-  //   setPage(1);
-  //   setMovieList(list);
+  function demoHandleSearch(e) {
+    const newSearchTerm = e.target.value;
 
-  //   if (list == "popular") {
-  //     setDisplayList("Popular");
-  //   } else if (list == "now_playing") {
-  //     setDisplayList("Playing Now");
-  //   } else if (list == "upcoming") {
-  //     setDisplayList("Upcoming");
-  //   } else if (list == "top_rated") {
-  //     setDisplayList("Top Rated");
-  //   }
-  // }
-
-  // function handleInputChange(e) {
-  //   const newSearchTerm = e.target.value;
-  //   setSearchTerm(newSearchTerm);
-
-  //   if (newSearchTerm !== "") {
-  //     setDisplayList(`Search Results for: ${newSearchTerm}`);
-  //   } else if (newSearchTerm == "") {
-  //     setDisplayList(movieList);
-  //   }
-
-  //   console.log(newSearchTerm);
-  // }
-
-  function handleInput(listOrEvent) {
-    let current = "";
-
-    if (typeof listOrEvent === "string") {
-      setPage(1);
-      setMovieList(listOrEvent);
-
-      if (listOrEvent == "popular") {
-        current = "Popular";
-        setDisplayList(current);
-        console.log(current);
-      } else if (listOrEvent == "now_playing") {
-        current = "Playing Now";
-        setDisplayList(current);
-      } else if (listOrEvent == "upcoming") {
-        current = "Upcoming";
-        setDisplayList(current);
-      } else if (listOrEvent == "top_rated") {
-        current = "Top Rated";
-        setDisplayList(current);
-      }
-    } else {
-      const newSearchTerm = listOrEvent.target.value;
+    if (newSearchTerm !== "") {
+      setDisplaySearch(`Search results for: ${newSearchTerm}`);
       setSearchTerm(newSearchTerm);
+    } else {
+      setDisplaySearch("");
+      setSearchTerm("");
+    }
+  }
 
-      if (newSearchTerm !== "") {
-        setDisplayList(`Search Results for: ${newSearchTerm}`);
-      } else if (newSearchTerm == "") {
-        setDisplayList(current);
-      }
-
-      console.log(newSearchTerm);
-      console.log(current);
+  function demoHandleInput(buttonValue) {
+    if (buttonValue == "popular") {
+      setDisplayList("Popular");
+      setMovieList(buttonValue);
+    } else if (buttonValue == "now_playing") {
+      setMovieList(buttonValue);
+      setDisplayList("Playing Now");
+    } else if (buttonValue == "top_rated") {
+      setMovieList(buttonValue);
+      setDisplayList("Top Rated");
+    } else if (buttonValue == "upcoming") {
+      setMovieList(buttonValue);
+      setDisplayList("Upcoming");
     }
   }
 
   return (
     <div className="flex flex-col items-center ">
-      <Home onButtonClick={handleInput} onInputChange={handleInput}>
+      <h1 className="text-white">test</h1>
+      <Home onButtonClick={demoHandleInput} onInputChange={demoHandleSearch}>
         {" "}
       </Home>
 
-      <h1 className="text-white pl-10 text-4xl font-bold">{displayList}</h1>
+      <h1 className="text-white pl-10 text-4xl font-bold">
+        {displaySearch ? displaySearch : displayList}
+      </h1>
 
       <div className="grid  lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-4 m-10  ">
         {movies.map((movie) => (
